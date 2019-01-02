@@ -1,7 +1,7 @@
 '''
 Play Tic Tac Toe With Python!
 
-Gibson Farabow, COMP 112, Final Project, Dec. 29, 2018
+Gibson Farabow, COMP 112 Final Project, Updated January 2, 2019
 
 3 main goals
 1: Implementing file.io to create login system and keep track of user wins (can only be used on OSX); see line 294 function and line 379
