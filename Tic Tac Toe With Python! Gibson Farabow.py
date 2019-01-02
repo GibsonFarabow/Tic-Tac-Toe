@@ -1,24 +1,44 @@
 '''
-Tic Tac Toe With Python!
+Play Tic Tac Toe With Python!
 
 Gibson Farabow, COMP 112, Final Project, Dec. 29, 2018
 
 3 main goals
-1: Implementing file.io to create login system
-2: Using effective flow control with list arguments (taking different updated lists)
-3: Indexing in conjunction with str to list and list to str coercions
-to print the full board with one print statement
+1: Implementing file.io to create login system and keep track of user wins (can only be used on OSX); see line 294 function and line 379
+2: Using effective flow control with list arguments (taking different updating lists)
+3: Indexing the board below as a str, coercing it to a list after a move is made, then coercing it back so the whole board
+can be printed in one instance (the board is always represented by the variable 'a') 
+
+       |     |   
+   -------------
+       |     |   
+   -------------
+       |     |   
+       
+Goals met and course mastery demonstrated mainly through my ability to keep track of lots of moving parts and implement them effectively.
 
 '''
-
 import random
 import os
 # os.chdir() optional to keep track of login text file 
-
 directory = os.getcwd()
 
-def is_valid_move (pletter, move, moveslist):
-    #sig. (str, str, list) -> bool
+def directions():
+    # sig. NoneType
+    print("Play Tic Tac Toe with Python! \n")
+    print("How to Play:")
+    print("When prompted, input the location you would like to move, after choosing x or o")
+    print("For example: '4' will place your move like this \n")
+    example = ("""     |     |
+  -------------
+   x |     |
+  -------------
+     |     |    """)
+    print(example, "\n")
+
+def is_valid_move (move, moveslist)
+    # sig. (str, list) -> bool
+    # if move is not valid (False), then user will be prompted to re enter move; see player_move() 
     if move in moveslist:
         return False
     elif move not in moveslist:
@@ -28,7 +48,8 @@ def is_valid_move (pletter, move, moveslist):
             return False
 
 def do_you_win(a, pletter):
-    #sig. (str, str) -> bool
+    # sig. (str, str) -> bool
+    # pletter, player letter, is chosen as x or o (otherwise program reboots)
     if pletter == 'x':
         if a[3] == 'x' and a[8] == 'x' and a[13] == 'x':
             return True
@@ -69,7 +90,8 @@ def do_you_win(a, pletter):
            return False
         
 def does_computer_win(a, cletter):
-    #sig. (str, str) -> bool
+    # sig. (str, str) -> bool
+    # cletter is computer letter (x or o)
     if cletter == 'x':
         if a[3] == 'x' and a[8] == 'x' and a[13] == 'x':
             return True
@@ -111,10 +133,10 @@ def does_computer_win(a, cletter):
         
 
 def player_move(a, moveslist, pletter):
-    #sig. (str, list, str) -> str
+    # sig. (str, list, str) -> str
     move = input('Player Move ')
     print("")
-    this = is_valid_move(pletter, move, moveslist)
+    this = is_valid_move(move, moveslist)
     if this == False:
         print('Invalid move, try again')
         return player_move(a, moveslist, pletter)
@@ -176,10 +198,10 @@ def player_move(a, moveslist, pletter):
             a += move[0]
             return a
                     
-def comp_move(a, comp_available_moves, complist, cletter):
-    #sig. (str, list, list, str) -> str
+def comp_move(a, comp_available_moves, complist, cletter): 
+    # sig. (str, list, list, str) -> str
+    # if computer can win next move it will, otherwise move is random
             print('Computer Move \n')
-            # if computer can win next move it will
             if '2' in complist and '3' in complist and '1' in comp_available_moves \
             or '4' in complist and '7' in complist and '1' in comp_available_moves:
                 move = '1'
@@ -269,19 +291,6 @@ def comp_move(a, comp_available_moves, complist, cletter):
             a += move
             return a
 
-def directions():
-    #sig. NoneType
-    print("Play Tic Tac Toe with Python! \n")
-    print("How to Play:")
-    print("When prompted, input the location you would like to move, after choosing x or o")
-    print("For example: '4' will place your move like this \n")
-    example = ("""     |     |
-  -------------
-   x |     |
-  -------------
-     |     |    """)
-    print(example, "\n")
-
 def login_data(directory):
     # sig. --> str
     # creates text file if game hasn't been played on the mac
@@ -314,7 +323,7 @@ def login_data(directory):
 
 
 def Tic_Tac_Toe(directory):
-    # sig. NoneType (or recursive if user chooses to play again)
+    # sig. str (precondition osx file directory) -> NoneType (recursive if user chooses to play again)
     directions()
     start = input("Would you like to login or create a login? (Y or N) ") # Y or anything
     if start == 'Y':
@@ -335,10 +344,10 @@ def Tic_Tac_Toe(directory):
   -------------
      |     |   
   -------------
-     |     |    """) # so the program will print the whole board at once
+     |     |    """)
     print("")
     for x in range(5): #Game Starts
-        # comp move
+        # computer move
         a = comp_move(a, comp_available_moves, complist, cletter)
         a = list(a)
         comp_available_moves.remove(a[-1])
